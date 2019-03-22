@@ -13,21 +13,21 @@ class ViewController: UIViewController {
     let formatter = NumberFormatter()
     
     enum operatorType {
-        case add
-        case subtract
-        case multiply
-        case divide
+        case add        // +
+        case subtract   // -
+        case multiply   // *
+        case divide     // /
     }
 
     var firstNumber = Double()
     var secondNumber = Double()
-    var lastOperator: operatorType? // +, -, *, /
-    var isTypingNumber : Bool = false
-//    var result: Double = 0
+    var lastOperator: operatorType?     // +, -, *, /
+    var isTypingNumber : Bool = false   //是否再輸入數字的判斷
+//
     var tempFinaNumber = Double()
     var tempSecondNumber = Double()
     var tempFirstNumber = Double()
-    var tempEqual = String()
+    var tempSign = String()
 
     
 
@@ -37,15 +37,16 @@ class ViewController: UIViewController {
     
 //    數字鍵,小數點
     @IBAction func numberButtonClick(_ sender: UIButton) {
-        //若是螢幕正在輸入數字，後面輸入的數字會繼續加入螢幕
+//        若是螢幕正在輸入數字，後面輸入的數字會繼續加入螢幕
+//        避免第一個數字是0一直按0會變成"000000"
         if isTypingNumber == true && messageLabel.text == "0" && sender.currentTitle! == "0" {
                 messageLabel.text = "0"
         }else if isTypingNumber == true && messageLabel.text != "0" && sender.currentTitle! != "0" {
             messageLabel.text = messageLabel.text! + sender.currentTitle!
         } else {
-            //顯示第一個輸入的數字
+//            顯示第一個輸入的數字
             messageLabel.text = sender.currentTitle!
-            //開啟<螢幕正在輸入數字>
+//            開啟<螢幕正在輸入數字>
             isTypingNumber = true
         }
     }
@@ -76,7 +77,7 @@ class ViewController: UIViewController {
 //     ←
     @IBAction func backButtinClick(_ sender: Any) {
         messageLabel.text = String((messageLabel.text?.dropLast())!)
-        //如果刪除到最後一個數字時再補0,避免messageLabel出現空白
+//        如果刪除到最後一個數字時再補0,避免messageLabel出現空白
         if messageLabel.text == "" {
            messageLabel.text = "0"
         }
@@ -88,14 +89,14 @@ class ViewController: UIViewController {
         secondNumber = 0
         isTypingNumber = false
         
-        //暫存給重複按下"="計算
+//        暫存給重複按下"="計算
         tempFinaNumber = 0
         tempSecondNumber = 0
         tempFirstNumber = 0
-        tempEqual = ""
+        tempSign = ""
     }
     
-    // +
+//     +
     @IBAction func plusButtonClick(_ sender: Any) {
         //將目前的messageLabel存入firstNumber
         firstNumber = Double(messageLabel.text!)!
@@ -111,85 +112,76 @@ class ViewController: UIViewController {
         messageLabel.text = String(format: "%g", firstNumber)
     }
     
-    // -
+//     -
     @IBAction func substracButtonClick(_ sender: Any) {
 
         firstNumber = Double(messageLabel.text!)!
         tempFirstNumber = firstNumber
         print("tempFirstNumber:", tempFirstNumber)
-        
-        //紀錄算法，最後由等號的條件判斷來計算值
         lastOperator = operatorType.subtract
-        //輸入數字輸入停止
         isTypingNumber = false
-        //格式%g，可以去掉Double小數點後的零
         messageLabel.text = String(format: "%g", firstNumber)
     }
 
-    // *
+//     *
     @IBAction func multiButtonClick(_ sender: Any) {
 
         firstNumber = Double(messageLabel.text!)!
         tempFirstNumber = firstNumber
         print("tempFirstNumber:", tempFirstNumber)
-
-        //紀錄算法，最後由等號的條件判斷來計算值
         lastOperator = operatorType.multiply
-        //輸入數字輸入停止
         isTypingNumber = false
-        //格式%g，可以去掉Double小數點後的零
         messageLabel.text = String(format: "%g", firstNumber)
     }
-    // /
+//     /
     @IBAction func divisionButtonClick(_ sender: Any) {
         firstNumber = Double(messageLabel.text!)!
         tempFirstNumber = firstNumber
         print("tempFirstNumber:", tempFirstNumber)
-
-        //紀錄算法，最後由等號的條件判斷來計算值
         lastOperator = operatorType.divide
-        //輸入數字輸入停止
         isTypingNumber = false
-        //格式%g，可以去掉Double小數點後的零
         messageLabel.text = String(format: "%g", firstNumber)
     }
     
-    // =
+//     =
     @IBAction func equalToButtonClick(_ sender: Any) {
         if let finalOperator = lastOperator {
-            //使用紀錄的最後一個計算法，來計算最後結果
+//            使用紀錄的最後一個計算法，來計算最後結果
             switch finalOperator {
             case .add:
-                //如果tempEqual = +,表示按了二次以上"="
-                if tempEqual == "+" {
+//                如果tempEqual = +,表示按了二次以上"="
+                if tempSign == "+" {
                     print("1")
                     tempFinaNumber = tempFirstNumber + tempSecondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", tempFirstNumber, "+", tempSecondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempEqual = "+"
+                    tempSign = "+"
                 }else{
                     print("2")
-                    //第一次按下"="來到這
+//                    第一次按下"="來到這
                     
+//                    將messageLabel目前顯示的String轉換成Double再給secondNumber
                     secondNumber = Double(messageLabel.text!)!
                     tempFinaNumber = firstNumber + secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", firstNumber, "+", secondNumber)
-                    tempEqual = "+"
+//                    暫存符號tempSign,給在按下"="做判斷
+                    tempSign = "+"
+//                    把最後顯示出來的messageLabel轉換成數字暫存給tempFirstNumber,給在按下"="做計算
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSecondNumber = secondNumber
 
                 }
                 
             case .subtract:
-                if tempEqual == "-" {
+                if tempSign == "-" {
                     print("1")
                     tempFinaNumber = tempFirstNumber - tempSecondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", tempFirstNumber, "-", tempSecondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempEqual = "-"
+                    tempSign = "-"
                 }
                 else{
                     print("2")
@@ -197,19 +189,19 @@ class ViewController: UIViewController {
                     tempFinaNumber = tempFirstNumber - secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", firstNumber, "-", secondNumber)
-                    tempEqual = "-"
+                    tempSign = "-"
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSecondNumber = secondNumber
                 }
 
             case .multiply:
-                if tempEqual == "*" {
+                if tempSign == "*" {
                     print("1")
                     tempFinaNumber = tempFirstNumber * tempSecondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", tempFirstNumber, "*", tempSecondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempEqual = "*"
+                    tempSign = "*"
                 }
                 else{
                     print("2")
@@ -217,20 +209,19 @@ class ViewController: UIViewController {
                     tempFinaNumber = tempFirstNumber * secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", firstNumber, "*", secondNumber)
-                    tempEqual = "*"
-                    print(tempEqual)
+                    tempSign = "*"
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSecondNumber = secondNumber
                 }
                 
             case .divide:
-                if tempEqual == "/" {
+                if tempSign == "/" {
                     print("1")
                     tempFinaNumber = tempFirstNumber / secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", tempFirstNumber, "/", tempSecondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempEqual = "/"
+                    tempSign = "/"
                 }
                 else{
                     print("2")
@@ -238,7 +229,7 @@ class ViewController: UIViewController {
                     tempFinaNumber = tempFirstNumber / secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
                     print(tempFinaNumber, "=", firstNumber, "/", secondNumber)
-                    tempEqual = "/"
+                    tempSign = "/"
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSecondNumber = secondNumber
                 }
