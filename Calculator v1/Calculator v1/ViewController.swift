@@ -32,8 +32,11 @@ class ViewController: UIViewController {
     
 
 
-    @IBOutlet var messageLabel: UILabel!
-    
+    @IBOutlet var messageLabel: UILabel! {
+        didSet {
+            messageLabel.numberOfLines = 0
+        }
+    }
     
 //    數字鍵,小數點
     @IBAction func numberButtonClick(_ sender: UIButton) {

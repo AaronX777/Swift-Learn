@@ -6,6 +6,7 @@
 //  Copyright © 2018 AppCoda. All rights reserved.
 //
 
+
 import UIKit
 
 class RestaurantDetailHeaderView: UIView {
