@@ -25,7 +25,6 @@ class ViewController: UIViewController {
     var isTypingNumber : Bool = false   //是否再輸入數字的判斷
 //
     var tempFinaNumber = Double()
-    var tempSecondNumber = Double()
     var tempFirstNumber = Double()
     var tempSign = String()
 
@@ -94,7 +93,6 @@ class ViewController: UIViewController {
         
 //        暫存給重複按下"="計算
         tempFinaNumber = 0
-        tempSecondNumber = 0
         tempFirstNumber = 0
         tempSign = ""
     }
@@ -105,7 +103,7 @@ class ViewController: UIViewController {
         firstNumber = Double(messageLabel.text!)!
         //在把firstNumber存入tempFirstNumber
 //        tempFirstNumber = firstNumber
-        print("tmpFinaNumber:", tempFinaNumber)
+        print("firstNumber:", firstNumber)
 
         //紀錄算法，最後由等號的條件判斷來計算值
         lastOperator = operatorType.add
@@ -155,9 +153,9 @@ class ViewController: UIViewController {
 //                如果tempEqual = +,表示按了二次以上"="
                 if tempSign == "+" {
                     print("1")
-                    tempFinaNumber = tempFirstNumber + tempSecondNumber
+                    tempFinaNumber = tempFirstNumber + secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
-                    print(tempFinaNumber, "=", tempFirstNumber, "+", tempSecondNumber)
+                    print(tempFinaNumber, "=", tempFirstNumber, "+", secondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSign = "+"
                 }else{
@@ -173,16 +171,16 @@ class ViewController: UIViewController {
                     tempSign = "+"
 //                    把最後顯示出來的messageLabel轉換成數字暫存給tempFirstNumber,給在按下"="做計算
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempSecondNumber = secondNumber
+
 
                 }
                 
             case .subtract:
                 if tempSign == "-" {
                     print("1")
-                    tempFinaNumber = tempFirstNumber - tempSecondNumber
+                    tempFinaNumber = tempFirstNumber - secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
-                    print(tempFinaNumber, "=", tempFirstNumber, "-", tempSecondNumber)
+                    print(tempFinaNumber, "=", tempFirstNumber, "-", secondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSign = "-"
                 }
@@ -194,15 +192,15 @@ class ViewController: UIViewController {
                     print(tempFinaNumber, "=", firstNumber, "-", secondNumber)
                     tempSign = "-"
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempSecondNumber = secondNumber
+                    
                 }
 
             case .multiply:
                 if tempSign == "*" {
                     print("1")
-                    tempFinaNumber = tempFirstNumber * tempSecondNumber
+                    tempFinaNumber = tempFirstNumber * secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
-                    print(tempFinaNumber, "=", tempFirstNumber, "*", tempSecondNumber)
+                    print(tempFinaNumber, "=", tempFirstNumber, "*", secondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSign = "*"
                 }
@@ -214,7 +212,7 @@ class ViewController: UIViewController {
                     print(tempFinaNumber, "=", firstNumber, "*", secondNumber)
                     tempSign = "*"
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempSecondNumber = secondNumber
+
                 }
                 
             case .divide:
@@ -222,7 +220,7 @@ class ViewController: UIViewController {
                     print("1")
                     tempFinaNumber = tempFirstNumber / secondNumber
                     messageLabel.text! = checkNumber(labelText:String(tempFinaNumber))
-                    print(tempFinaNumber, "=", tempFirstNumber, "/", tempSecondNumber)
+                    print(tempFinaNumber, "=", tempFirstNumber, "/", secondNumber)
                     tempFirstNumber = Double(messageLabel.text!)!
                     tempSign = "/"
                 }
@@ -234,7 +232,7 @@ class ViewController: UIViewController {
                     print(tempFinaNumber, "=", firstNumber, "/", secondNumber)
                     tempSign = "/"
                     tempFirstNumber = Double(messageLabel.text!)!
-                    tempSecondNumber = secondNumber
+                    
                 }
             }
         }
