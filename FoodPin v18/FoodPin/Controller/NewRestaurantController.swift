@@ -64,7 +64,9 @@ class NewRestaurantController: UITableViewController, UITextFieldDelegate, UIIma
         if let customFont = UIFont(name: "Rubik-Medium", size: 35.0) {
             navigationController?.navigationBar.largeTitleTextAttributes = [ NSAttributedString.Key.foregroundColor: UIColor(red: 231, green: 76, blue: 60), NSAttributedString.Key.font: customFont]
         }
-        
+        //https://developer.apple.com/documentation/uikit/uitableview/1614909-separatorstyle
+        //test1
+         tableView.separatorStyle = .none
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
         
@@ -152,4 +154,25 @@ class NewRestaurantController: UITableViewController, UITextFieldDelegate, UIIma
         
         dismiss(animated: true, completion: nil)
     }
+   
+    //https://developer.apple.com/documentation/uikit/uitextfield
+    @IBAction func saveButton(_ sender: AnyObject) {
+        if nameTextField.text == "" || typeTextField.text == "" || addressTextField.text == "" || phoneTextField.text == "" || descriptionTextView.text == "" {
+            let alertController = UIAlertController(title: "Oops", message: "We can't proceed because one of the fields is blank. Please note that all fields are required.", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(alertAction)
+            present(alertController, animated: true, completion: nil)
+            
+            return
+        }
+        
+        print("Name: \(nameTextField.text ?? "")")
+        print("Type: \(typeTextField.text ?? "")")
+        print("Location: \(addressTextField.text ?? "")")
+        print("Phone: \(phoneTextField.text ?? "")")
+        print("Description: \(descriptionTextView.text ?? "")")
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
